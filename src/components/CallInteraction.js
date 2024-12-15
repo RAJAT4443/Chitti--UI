@@ -89,35 +89,77 @@ function CallInteraction() {
     }
   };
 
+  // const handleSubmit = async () => {
+  //   if (!audioURL) {
+  //     setMessage('Please record an audio file before submitting.');
+  //     return;
+  //   }
+
+  //   setIsProcessing(true);
+  //   setMessage('');
+
+  //   try {
+  //     // Convert audio blob to file
+  //     const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
+  //     const formData = new FormData();
+  //     formData.append('audio', audioBlob, 'recorded-audio.wav');
+
+  //     // Send the file to the backend (replace with actual API endpoint)
+  //     const response = await fetch('http://localhost:8083/chitti/api/process-audio', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
+
+  //     if (!response.ok) {
+  //       console.log(response,response.status);
+  //       throw new Error('Error processing audio');
+  //     }
+
+  //     const blob = await response.blob();
+  //     const outputAudioUrl = URL.createObjectURL(blob);
+
+  //     setResponseAudio(outputAudioUrl); // Set the generated audio file
+  //     setMessage('Audio processed successfully!');
+  //   } catch (error) {
+  //     setMessage('Failed to process audio. Please try again.');
+  //   } finally {
+  //     setIsProcessing(false);
+  //   }
+  // };
+
+
   const handleSubmit = async () => {
     if (!audioURL) {
       setMessage('Please record an audio file before submitting.');
       return;
     }
-
+  
     setIsProcessing(true);
     setMessage('');
-
+  
     try {
       // Convert audio blob to file
       const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
       const formData = new FormData();
       formData.append('audio', audioBlob, 'recorded-audio.wav');
-
+      formData.append('sessionId', 'session_123450'); // Replace with dynamic sessionId if needed
+      formData.append('aParty', '1234567890'); // Replace with dynamic aParty value
+      formData.append('bParty', '0987654321'); // Replace with dynamic bParty value
+  
       // Send the file to the backend (replace with actual API endpoint)
-      const response = await fetch('http://localhost:8083/chitti/api/process-audio', {
+      const response = await fetch('http://localhost:8083/call-receiver', {
         method: 'POST',
         body: formData,
       });
-
+  
       if (!response.ok) {
-        console.log(response,response.status);
+        console.log(response, response.status);
         throw new Error('Error processing audio');
       }
-
+  
       const blob = await response.blob();
       const outputAudioUrl = URL.createObjectURL(blob);
-
+  
       setResponseAudio(outputAudioUrl); // Set the generated audio file
       setMessage('Audio processed successfully!');
     } catch (error) {
@@ -126,14 +168,13 @@ function CallInteraction() {
       setIsProcessing(false);
     }
   };
-
   return (
     <MDBContainer
       fluid
       className="d-flex justify-content-center align-items-center vh-100"
       style={{ backgroundColor: '#f8f9fa' }}
     >
-      <MDBCard className="text-black" style={{ borderRadius: '25px', maxWidth: '700px', width: '100%' }}>
+      <MDBCard className="text-black" style={{ borderRadius: '25px', maxWidth: '700px', width: '100%' ,backgroundColor: '#cce5ff' }}>
         <MDBRow className="g-0">
           {/* Left Side - Interaction */}
           <MDBCol md="6" className="order-2 order-lg-1">
@@ -206,12 +247,21 @@ function CallInteraction() {
             className="order-1 order-lg-2 d-flex align-items-center"
             style={{ backgroundColor: '#e9f3ff', borderRadius: '0 25px 25px 0' }}
           >
-            <MDBCardImage
+            {/* <MDBCardImage
               src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw3.webp"
               alt="Call Interaction Illustration"
               className="img-fluid"
               style={{ borderRadius: '0 25px 25px 0' }}
-            />
+            /> */}
+
+<MDBCardImage
+  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+  alt="Call Interaction Illustration"
+  className="img-fluid"
+  style={{ borderRadius: '0 25px 25px 0' }}
+/>
+
+
           </MDBCol>
         </MDBRow>
       </MDBCard>
